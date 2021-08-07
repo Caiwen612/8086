@@ -1,0 +1,57 @@
+.MODEL SMALL
+.STACK 100
+.DATA
+ M1 DB "QUANTITY (UNIT):$"
+ M2 DB 13,10,"UNIT PRICE (RM):$"
+ M3 DB 13,10,"TOTAL AMOUNT IS RM$"
+ QTY DB 0
+ PRI DB 0
+ TOT DB 0
+.CODE
+
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    ;M1
+    MOV AH,09H
+    LEA DX,M1
+    INT 21H
+    ;INPUT 1
+    MOV AH,01H
+    INT 21H
+    MOV QTY,AL
+    ;M2
+    MOV AH,09H
+    LEA DX,M2
+    INT 21H
+    ;INPUT 2
+    MOV AH,01H
+    INT 21H
+    MOV PRI,AL
+    ;M3
+    MOV AH,09H
+    LEA DX,M3
+    INT 21H
+
+    ;PROCESS
+    SUB QTY,30H
+    SUB PRI,30H
+    ;MOV AX,0 ;?
+    MOV AH,QTY
+    MOV BH,PRI
+    MUL BH ;AH = AH * BLH
+    ADD AH,30H
+    MOV TOT,AH
+    ;OUTPUT RESULT
+    MOV AH,02H
+    MOV DL,TOT
+    INT 21H
+
+    MOV AH,4CH
+    INT 21H
+MAIN ENDP
+END MAIN
+
+ 
+
+

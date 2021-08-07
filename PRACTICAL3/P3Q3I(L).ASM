@@ -1,0 +1,68 @@
+;------------------------------P3Q3A.ASM-----------------------------
+;             | ASCII | COMPUTER   | HEX change to DEC |  DECIMAL    |
+;USER INPUT:  |   3   |    33H     |       -30H        |  3H/3D/3    |
+;USER INPUT:  |   2*  |    32H*    |       -30H        |  2H/2D/2*   |
+;     TOTAL:  |   6   | 9F6H=2550D |                   |     6       |
+;             |   6   |    36H     |       +30H        |             |
+;--------------------------------------------------------------------;
+.MODEL SMALL
+.STACK 100
+.DATA
+ MSG1 DB "QUANTITY (UNIT): $"
+ MSG2 DB 13,10,"UNIT UPCE (RM): $"
+ MSG3 DB 13,10,"TOTAL AMOUNT IS RM$"
+ QTY DB 0
+ UP DB 0
+ TOTAL DB 0
+.CODE
+MAIN PROC
+ MOV AX,@DATA
+ MOV DS,AX
+
+ ;---OUTPUT STRING:09H (MSG1)
+ MOV AH,09H
+ LEA DX,MSG1
+ INT 21H
+ ;---INPUT BYTE:01H
+ MOV AH,01H  
+ INT 21H ;AL = ASCII-3(33H)
+ ;---MOVE USER INPUT FROM AL TO QTY ;THIS IS INTERNAL OPERATION, SO NO NEED INT 21H, and did not use io operation
+ MOV QTY,AL ;QTY=33H 
+ 
+ ;---OUTPUT STRING:09H (MSG2)
+ MOV AH,09H
+ LEA DX,MSG2
+ INT 21H
+ ;---INPUT BYTE:01H
+ MOV AH,01H
+ INT 21H ;AL = ASCII-2 (32H)
+ ;---MOVE USER INPUT FROM AL TO UP
+ MOV UP,AL ;UP=32H
+
+;OUTPUT STRING:09H (MSG3)
+    MOV AH,09H
+    LEA DX,MSG3
+    INT 21H
+ ;---CALCULATION
+ ;---(1) CONVERT HEX TO DEC: -30H, FOR QTY & UP (HEX>DEC)
+ SUB QTY,30H ;QTY=QTY-30H=3H/3D/3
+ SUB UP,30H ;UP=UP-30H=2H/2/2
+ ;---(2) CLEAR AX (REMEMBER CLEAR AX BEFORE CALCULATION)
+ MOV AX,0 ;AX=0
+ ;---(3) MOVE UP TO AL (MULTIPLICANT)
+ MOV AL,QTY ;AL=3
+ ;---(4) MULTIPLY WITH QTY(MULTIPLIER)(CANNOT PUT VALUE ,ONLY CAN PUT VARIABLE
+ MUL UP ;AX=AL*UP= 3*2 = 6
+ ;---(5) MOVE RESULT FROM AL TO TOTAL
+ MOV TOTAL,AL ;TOTAL=6
+ ;---(6) CONVERT DEC TO HEX: +30H, FOR TOTAL
+ ADD TOTAL,30H
+ ;---OUTPUT BYTE: 02(TOTAL)
+ MOV AH,02H
+ MOV DL,TOTAL
+ INT 21H
+
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+END MAIN
