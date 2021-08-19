@@ -1,7 +1,8 @@
 ;TO GET 20 INPUT BYTE; MOV AH,01H   X20 TIMES
 ;                      INT 21H      X20 TIMES
-;USER ARRAY MORE EFFICIENT INSTEAD of YOU WRITE this CODE(line1-line2) 20 TIMES
+;USE ARRAY MORE EFFICIENT INSTEAD of YOU WRITE this CODE(line1-line2) 20 TIMES
 ;
+;Every array must have 2 control information ,max and act
 ;      <-------------ARRAY--------->
 ;      |MAX|ACT|Q|W|E|R|T|Y|0|0|0|0| 
 ;               <-----ARRAYDATA---->
@@ -13,7 +14,7 @@
 ;so you can only key in 9 character + 1 enter key if your max data is 10.
 ;------------------------------
 ; USER = ASCII CODE = ASCII 6
-; COMPUTER          = 36H
+; COMPUTER RECEIVE HEX = 36H
 ; TO SHOW NUM (ASCII), CONVERT DEC TO HEX (+30H) 
 ; TO SHOW HEX (ASCII), CONVERT HEX TO DEC(-30H)
 ;------------------------------------
@@ -47,7 +48,7 @@ MAIN PROC
  LEA DX,NL
  INT 21H
 
-
+;This two is same ,see which you prefer
  ;--OUTPUT BYE:02H
  MOV AH,02H
  MOV DL,ARRAY[2]
@@ -61,17 +62,24 @@ MAIN PROC
  LEA DX,NL
  INT 21H
 
- ;--OUTPUT BYE:02H
- MOV AH,02H
- MOV DL,ARRAY[1] ;display how many item inslide in array
- INT 21H
 
- ;--OUTPUT BYE:02H
- ADD ACT,30H
+;This show how many value type by user 
+; --OUTPUT BYE:02H
+ ADD ACT,30H ;convert dec to hex
  MOV AH,02H
  MOV DL,ACT
  INT 21H 
- 
+
+
+;  ;--OUTPUT BYE:02H
+;  MOV AX,0
+;  MOV AL,ARRAY[1] 
+;  ADD AL,30H
+;  MOV AH,02H
+;  MOV DL,ARRAY[1] ;display how many item inslide in array
+;  INT 21H
+
+
  MOV AH,4CH
  INT 21H
 MAIN ENDP
