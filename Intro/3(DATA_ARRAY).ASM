@@ -8,7 +8,7 @@
 ;               <-----ARRAYDATA---->
 ;note：everything start from 0   
 ; ARRAY[0] = MAX : maximum value of the array.
-; ARRAY[1] = ACT(Actual number)(this is a variable,can change what you want) = 6 : how many value key in by user. for this case,the value is Q W E R T Y
+; ARRAY[1] = ACT (WILL INGNORE ENTER KEY,BECAUSE IT IS ONLY RECEIVE STRING) (Actual number)(this is a variable,can change what you want) = 6 : how many value key in by user. for this case,the value is Q W E R T Y
 ; ARRAY[2] == ARRAYDATA[0] == "Q"
 ; ARRAYDATA[MAX-1] = ENTER KEY (why need (max -1) because enter key also consider one character) 
 ;so you can only key in 9 character + 1 enter key if your max data is 10.

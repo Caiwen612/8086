@@ -18,7 +18,7 @@
 ;      ASCII: 1 0 5
 ;                                         DEC>HEX     
 ;;----------------------------------------------------------------------------------------
-.MODEL SMALL
+.MODEL SMALL 
 .STACK 100
 .DATA
  MSG1 DB "QUANTITY (UNIT): $"
@@ -37,6 +37,8 @@
 MAIN PROC
  MOV AX,@DATA
  MOV DS,AX
+ 
+
 
  ;---OUTPUT STRING:09H (MSG1)
  MOV AH,09H
@@ -69,7 +71,7 @@ MAIN PROC
     INT 21H
 
 
- ;---CALCULATION
+ ;---CALCULATION 15*7
  ;---(1) CONVERT HEX TO DEC: -30H, FOR QTY & UP (HEX>DEC)
  SUB QTY1,30H ;QTY1=QTY1-30H=1H/1D/1
  SUB QTY2,30H ;QTY2=QTY2-30H=5H/5D/5
@@ -92,8 +94,8 @@ MOV AL,TOT ;AL=105
 ;---(9) DIVIDE DIVIDEND BY DIVISOR
 DIV TEN ;AX= AX/TEN = 105/10 =R1Q1=>5(AH=R1),10(AL=Q1) 
 ;(10)MOVE RESULT INTO Q1 & R1
-MOV Q1,AL ;Q1=10
-MOV R1,AH ;R1=5
+MOV Q1,AL ;Q1=10    
+MOV R1,AH ;R1=5     
 ;----------SEPERATE 10 INTO 1 & 0
 ;----(11) MOVE DIVIDED TO AL
 MOV AX,0 ;AX=0
