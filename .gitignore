@@ -1,3 +1,4 @@
-dir_to_ignore/Assg C n G
-
+#dir_to_ignore/Assg C n G
+.vscode
+*.json
 #comment
